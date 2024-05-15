@@ -1,0 +1,13 @@
+[
+    {
+        "filename": "my-first-post.md",
+        "frontmatter": {
+            "layout": "../../layouts/post-layout.astro",
+            "title": "My first post",
+            "description": "This is my first blog post.",
+            "dateFormatted": "May 15th, 2024",
+            "link": "/post/my-first-post"
+        },
+        "content": "\n## 📝 **My First Blog Post**\n\nThis is my first blog post, testing to see if this works. 🤖\n"
+    }
+]

@@ -1,0 +1,16 @@
+[
+    {
+        "dates": "February 2024 · Present",
+        "role": "Junior Front-end Engineer",
+        "company": "CreatorDB",
+        "description": "Responsible for customer service and CRM system front-end development.",
+        "logo": "/assets/images/experiences/creatordb.svg"
+    },
+    {
+        "dates": "May 2021 · May 2023",
+        "role": "Front-end Developer",
+        "company": "Polyglatte",
+        "description": "Responsible for front-end development of the language learning platform.",
+        "logo": "/assets/images/experiences/polyglatte.svg"
+    }
+]

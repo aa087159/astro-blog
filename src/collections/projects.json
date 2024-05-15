@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Polyglatte.com",
+        "description": "A language learning platform.",
+        "image": "/assets/images/projects/polyglatte.png",
+        "url": "https://polyglatte.com/"
+    },
+    {
+        "name": "Chip 8 emulator",
+        "description": "Chip 8 emulator written in JavaScript.",
+        "image": "/assets/images/projects/chip8.png",
+        "url": "https://chip8emulator.netlify.app"
+    }
+]

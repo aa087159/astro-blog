@@ -43,3 +43,56 @@ const { frontmatter, headings } = Astro.props;
     </main>
   </div>
 </BaseLayout>
+
+<script>
+  const fnObserver = () => {
+    function handleIntersection(
+      entries: IntersectionObserverEntry[],
+      observer: IntersectionObserver
+    ) {
+      entries.forEach((entry) => {
+        const index = document.querySelector(
+          `aside a[href="#${entry.target.id}"]`
+        );
+
+        if (entry.isIntersecting) {
+          index?.classList.remove("bg-slate-200", "dark:bg-slate-800"); // remove bg
+          index?.classList.add(
+            "bg-sky-600",
+            "dark:bg-sky-700",
+            "text-white",
+            "font-bold",
+            "transition-colors",
+            "duration-200"
+          );
+        } else {
+          index?.classList.add("bg-slate-200", "dark:bg-slate-800"); // add bg
+          index?.classList.remove(
+            "bg-sky-600",
+            "dark:bg-sky-700",
+            "text-white",
+            "font-bold",
+            "transition-colors",
+            "duration-200"
+          );
+        }
+      });
+    }
+
+    const headings = document.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+    const options = {
+      root: null,
+      rootMargin: " 15% 0px 0% 0px ",
+      threshold: 1,
+    };
+
+    const observer = new IntersectionObserver(handleIntersection, options);
+
+    headings.forEach((heading) => {
+      observer.observe(heading);
+    });
+  };
+  fnObserver();
+  document.addEventListener("astro:after-swap", fnObserver);
+</script>

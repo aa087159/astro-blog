@@ -3,10 +3,23 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/components/*": ["src/components/*.astro"],
-      "@/layouts/*": ["src/layouts/*.astro"],
-      "@/utils": ["src/utils/index.ts"]
-    }
+      "@/components/*": [
+        "src/components/*.astro"
+      ],
+      "@/layouts/*": [
+        "src/layouts/*.astro"
+      ],
+      "@/utils": [
+        "src/utils/index.ts"
+      ]
+    },
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
   },
-  "exclude": ["node_modules", "**/node_modules/*", ".vscode", "dist"]
+  "exclude": [
+    "node_modules",
+    "**/node_modules/*",
+    ".vscode",
+    "dist"
+  ]
 }

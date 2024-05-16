@@ -7,7 +7,7 @@ import matter from "gray-matter";
 const markdownDir = path.join(
   fileURLToPath(import.meta.url),
   "..",
-  "../../pages/post"
+  "../../pages/posts"
 );
 
 // Output JSON file

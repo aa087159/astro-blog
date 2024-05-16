@@ -4,6 +4,7 @@ title: My first post
 description: This is my first blog post.
 dateFormatted: May 15th, 2024
 link: /posts/random/my-first-post
+category: random
 ---
 
 ## 📝 **My First Blog Post**

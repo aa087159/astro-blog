@@ -2,6 +2,14 @@
 import PageHeading from "../components/page-heading.astro";
 import PostsLoop from "../components/posts-loop.astro";
 import BaseLayout from "../layouts/base-layout.astro";
+import posts from "../collections/posts.json";
+
+const categories: string[] = posts.categories.reduce(
+  (accumulator, category) => {
+    return accumulator.concat(category.category);
+  },
+  [] as string[]
+);
 ---
 
 <BaseLayout title="My Posts">
@@ -10,9 +18,33 @@ import BaseLayout from "../layouts/base-layout.astro";
       title="My Posts"
       description="Dive into my musings on life and tech in my latest posts; a blend of introspection and innovation. Keep an eye out for fresh insights and updates!"
     />
+    <form class="flex max-w-lg mt-5 items-center">
+      <select
+        id="categories"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      >
+        <option value="All">All</option>
+        {
+          categories.map((category, i) => (
+            <option value={category}>{category}</option>
+          ))
+        }
+      </select>
+    </form>
 
     <div class="z-50 flex flex-col items-stretch w-full gap-5 my-8">
       <PostsLoop count="10" />
     </div>
   </section>
 </BaseLayout>
+
+<!-- <script>
+  let category = "random";
+
+  const selectbar = document.getElementById("categories") as HTMLSelectElement;
+
+  selectbar?.addEventListener("change", () => {
+    category = selectbar.value;
+  });
+  console.log(category);
+</script> -->

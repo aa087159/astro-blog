@@ -18,8 +18,11 @@ const outputFile = path.join(
   "../../collections/posts-categories.json"
 );
 
-// Example usage
-const parentDirectory = "../../pages/posts"; // Path to the parent directory
+const parentDirectory = path.join(
+  fileURLToPath(import.meta.url),
+  "..",
+  "../../pages/posts"
+);
 
 const convertFoldersToCategories = async () => {
   const folders = await getFolders(parentDirectory);

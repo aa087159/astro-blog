@@ -3,7 +3,21 @@ import posts from "../collections/posts.json";
 
 const { count } = Astro.props;
 
-const postsLoop = posts.slice(0, count);
+// let displayPosts = [];
+// const calcPosts = () => {
+//   posts.categories.map((category) => {
+//     displayPosts.push(...category.data);
+//   });
+// };
+// calcPosts();
+// console.log(displayPosts);
+const displayPosts = posts.categories.reduce((accumulator, category) => {
+  return accumulator.concat(category.data);
+}, [] as any[]);
+
+console.log(displayPosts);
+
+const postsLoop = displayPosts.slice(0, count);
 ---
 
 {

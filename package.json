@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "convert-posts": "node ./src/assets/js/convert-md-to-json.js",
+    "convert-to-categories": "node ./src/assets/js/get-all-post-categories.js",
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",

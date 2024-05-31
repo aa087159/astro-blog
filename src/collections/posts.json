@@ -31,7 +31,20 @@
     },
     {
       "category": "react",
-      "data": []
+      "data": [
+        {
+          "filename": "react-first.md",
+          "frontmatter": {
+            "layout": "../../../layouts/post-layout.astro",
+            "title": "My first react post",
+            "description": "This is my first react post",
+            "dateFormatted": "May 17th, 2024",
+            "link": "/posts/react/react-first",
+            "category": "react"
+          },
+          "content": "\n## 📝 **My First Blog Post**\n\nfirst react file\n"
+        }
+      ]
     }
   ]
 }

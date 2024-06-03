@@ -9,6 +9,19 @@ const categories: string[] = posts.categories.reduce(
   [] as string[]
 );
 
+interface Post {
+  filename: string;
+  frontmatter: {
+    layout: string;
+    title: string;
+    description: string;
+    dateFormatted: string;
+    link: string;
+    category: string;
+  };
+  content: string;
+}
+
 interface CategorySelectbarProps {
   count: number;
 }
@@ -26,12 +39,24 @@ const CategorySelectbar = ({ count }: CategorySelectbarProps) => {
     return accumulator.concat(category.data);
   }, [] as any[]);
 
-  const postsLoop = displayPosts.slice(0, count).filter((post) => {
+  const postsLoop: Post[] = displayPosts.slice(0, count).filter((post) => {
     if (selectedCategory === "All") {
       return true;
     } else {
       return post.frontmatter.category === selectedCategory;
     }
+  });
+  postsLoop.sort((a: Post, b: Post) => {
+    const dateStrA = a.frontmatter.dateFormatted.replace(/(st|nd|rd|th)/, "");
+    const dateStrB = b.frontmatter.dateFormatted.replace(/(st|nd|rd|th)/, "");
+
+    const dateA = new Date(dateStrA);
+    const dateB = new Date(dateStrB);
+
+    const millisecondsSinceEpochA = dateA.getTime();
+    const millisecondsSinceEpochB = dateB.getTime();
+
+    return millisecondsSinceEpochB - millisecondsSinceEpochA;
   });
 
   return (

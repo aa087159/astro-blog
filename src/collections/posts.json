@@ -4,18 +4,6 @@
       "category": "random",
       "data": [
         {
-          "filename": "my-first-post.md",
-          "frontmatter": {
-            "layout": "../../../layouts/post-layout.astro",
-            "title": "My first post",
-            "description": "This is my first blog post.",
-            "dateFormatted": "May 15th, 2024",
-            "link": "/posts/random/my-first-post",
-            "category": "random"
-          },
-          "content": "\n## 📝 **My First Blog Post**\n\nThis is my first blog post, testing to see if this works. 🤖\n\n## 📝 **Heading1**\n\n1 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n\n## 📝 **Heading2**\n\n2Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n\n## 📝 **Heading3**\n\n3Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.fefcolr;efcr\n"
-        },
-        {
           "filename": "set-up-posts-selectbar.md",
           "frontmatter": {
             "layout": "../../../layouts/post-layout.astro",
@@ -33,16 +21,16 @@
       "category": "react",
       "data": [
         {
-          "filename": "react-first.md",
+          "filename": "proxy-state-valtio.md",
           "frontmatter": {
             "layout": "../../../layouts/post-layout.astro",
-            "title": "My first react post",
-            "description": "This is my first react post",
-            "dateFormatted": "May 17th, 2024",
-            "link": "/posts/react/react-first",
+            "title": "proxy state valtio",
+            "description": "the implementation of proxy state",
+            "dateFormatted": "May 31th, 2024",
+            "link": "/posts/react/proxy-state-valtio",
             "category": "react"
           },
-          "content": "\n## 📝 **My First Blog Post**\n\nfirst react file\n"
+          "content": "\n## Valtio Example\n\nValtio can do something like:\n\n```javascript\nimport { proxy, useSnapshot } from \"valtio\";\n\nconst state = proxy({ count: 0, text: \"hello\" });\n\n// This will re-render on `state.count` change\n// but not on `state.text` change\nfunction Counter() {\n  const snap = useSnapshot(state);\n  return (\n    <div>\n      {snap.count}\n      <button onClick={() => ++state.count}>+1</button>\n    </div>\n  );\n}\n\n// you can mutate the state from anywhere\nsetInterval(() => {\n  ++state.count;\n}, 1000);\n```\n\n## Basic Implementation\n\n```javascript\nimport React from 'react'\n\nexport function proxy<T extends object>(initialValue: T): T {\n\n  // keep track of the keys of the object that are being used in the component\n  let rendered = new Set<keyof T>()\n  // this force update function would update the component where state is used\n  // need to make this an array if there're multiple components using proxy state\n  let forceUpdateFn: (()=>void)\n\n  return new Proxy(initialValue,{\n    get(target, prop) {\n      // whenever state is being used in a component, this function would be called\n      // and we add the used key to the rendered set\n      // so that we know whether we need to update components\n      rendered.add(prop as keyof T)\n      return Reflect.get(target, prop);\n    },\n    set(target, prop, value){\n      // if prop is 'forceUpdate', we assign the prop to forceUpdateFn\n      if(prop === 'forceUpdate'){\n        forceUpdateFn = value\n        return false\n      }\n      // no change do not update\n      if(Reflect.get(target, prop) === value){\n        return true\n      }\n      // update state\n      const result = Reflect.set(target, prop, value);\n      // re-render components where state is used\n      if(result && rendered.has(prop as keyof T) && forceUpdateFn){\n        // recalculate rendered\n        rendered.clear();\n        forceUpdateFn()\n      }\n      return result\n    }\n  })\n}\n```\n\n\\*This proxy component is just a simple implementation, it only considers the scenario where only one state exists, so when you have more than one state, this proxy component would update all components that use any state.\n\n```javascript\nexport function useSnapshot<T extends object>(proxy: T): T {\n  const [_, updateFunc] = React.useState(0)\n  // setting forceUpdateFn in proxy\n  Reflect.set(proxy, 'forceUpdate', ()=>updateFunc((prev)=>prev+1))\n  return proxy\n}\n```\n\nWhenever `useSnapshot` is called in a component, an `updateFunc` would be stored in the proxy component. In this way, when a state value is updated, we can update all components where the state is called inside the proxy component.\n\n## The Usage\n\n```javascript\nconst state = proxy({ count: 100, text: \"hello\", mode: \"count\" });\n\nexport function App() {\n  const snap = useSnapshot(state);\n  return <div>{snap.mode === \"count\" ? snap.count : snap.text}</div>;\n}\n```\n"
         }
       ]
     }

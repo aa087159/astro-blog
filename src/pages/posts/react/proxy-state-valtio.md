@@ -2,7 +2,7 @@
 layout: ../../../layouts/post-layout.astro
 title: proxy state valtio
 description: the implementation of proxy state
-dateFormatted: May 31th, 2024
+dateFormatted: May 31st, 2024
 link: /posts/react/proxy-state-valtio
 category: react
 ---

@@ -34,6 +34,10 @@ html.dark #darkToggle:hover .horizon {
   animation: 1s ease 0s 1 rising;
 }
 
+pre {
+  max-width: calc(100vw - 64px);
+}
+
 @keyframes setting {
   0% {
     transform: translate3d(0, 10px, 0);

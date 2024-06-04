@@ -1,6 +1,8 @@
 import React from "react";
 import posts from "../collections/posts.json";
 import DisplayPosts from "src/components/display-posts";
+import type { Post } from "src/types";
+import { sortPosts } from "@/utils";
 
 const categories: string[] = posts.categories.reduce(
   (accumulator, category) => {
@@ -8,19 +10,6 @@ const categories: string[] = posts.categories.reduce(
   },
   [] as string[]
 );
-
-interface Post {
-  filename: string;
-  frontmatter: {
-    layout: string;
-    title: string;
-    description: string;
-    dateFormatted: string;
-    link: string;
-    category: string;
-  };
-  content: string;
-}
 
 interface CategorySelectbarProps {
   count: number;
@@ -46,18 +35,7 @@ const CategorySelectbar = ({ count }: CategorySelectbarProps) => {
       return post.frontmatter.category === selectedCategory;
     }
   });
-  postsLoop.sort((a: Post, b: Post) => {
-    const dateStrA = a.frontmatter.dateFormatted.replace(/(st|nd|rd|th)/, "");
-    const dateStrB = b.frontmatter.dateFormatted.replace(/(st|nd|rd|th)/, "");
-
-    const dateA = new Date(dateStrA);
-    const dateB = new Date(dateStrB);
-
-    const millisecondsSinceEpochA = dateA.getTime();
-    const millisecondsSinceEpochB = dateB.getTime();
-
-    return millisecondsSinceEpochB - millisecondsSinceEpochA;
-  });
+  sortPosts(postsLoop);
 
   return (
     <div>

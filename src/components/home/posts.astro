@@ -1,4 +1,5 @@
 ---
+import { sortPosts } from "@/utils";
 import posts from "../../collections/posts.json";
 import Button from "../button.astro";
 import DisplayPosts from "../display-posts";
@@ -8,6 +9,7 @@ const displayPosts = posts.categories.reduce((accumulator, category) => {
 }, [] as any[]);
 
 const slicedPosts = displayPosts.slice(0, 3);
+sortPosts(slicedPosts);
 ---
 
 <section class="max-w-4xl mx-auto px-7 lg:px-0">
